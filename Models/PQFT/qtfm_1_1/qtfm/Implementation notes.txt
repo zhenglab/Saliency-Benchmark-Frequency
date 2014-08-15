@@ -1,0 +1,65 @@
+Implementation notes
+--------------------
+
+The following are general points about the implementation of the quaternion
+toolbox. It is intended to expand these notes in due course to give more
+detailed information about the design of the toolbox.
+
+1. The representation of a quaternion is hidden in a small number of private
+functions. This is to keep the bulk of the functions in the library separate
+from the representation, and to facilitate a later change of representation
+if needed.
+    
+2. Functions which are overloadings of Matlab functions generally take the
+same parameters as the Matlab function, but there are some exceptions where
+the Matlab function seemed to have unnecessary parameter combinations that
+are of little use.
+
+3. Functions are inherently matrix-oriented as with standard Matlab functions.
+
+4. Errors are limited to cases where parameters are incorrect or not supported.
+
+5. Warnings are issued in cases where a result will be incorrect (for example
+a NaN, but the computation is not stopped). Generally the problem should be
+fixed at a higher level than the point where the warning occurs. If this is in
+one of the functions of the toolbox, the problem should be reported, otherwise
+if it is user code it should be fixed there.
+
+6. Because the toolbox is designed to work with complexified quaternions (that
+is quaternions in which the four components are complex), there are some tricks
+in some of the functions. The modulus of a complex quaternion is complex, and it
+may be zero. This has many ramifications. One example suffices to illustrate the
+tricks needed. In the function unit.m, it is necessary to divide a quaternion by
+its modulus. There is an error check in the function to give a warning if any
+element of the quaternion array has zero modulus (in fact less than epsilon),
+but since the modulus may be complex, it is abs(m) that is compared with eps and
+not m itself. Note that if the modulus is real, abs(m) == m, and the abs
+function has no effect, whereas, if the modulus is complex, abs(m) is real, and
+it can only be zero if the modulus is zero.
+
+7. The overloading of the Matlab functions real, imag and conj is important.
+real and imag operate exactly as their complex counterparts. Applied to a
+complex quaternion they return a real quaternion which is the real or imaginary
+part of the complex quaternion, exactly analogous to the complex case. conj,
+however, is different since it returns the quaternion conjugate by default - the
+vector part is negated not the complex part of the components. To obtain the
+complex conjugate a second parameter is needed. There is also a total conjugate,
+which means both the quaternion and complex conjugates are applied. The reason
+for making the default the quaternion conjugate is subtle: conj is used in
+ctranspose and in inverse, and in both of these cases it must be the quaternion
+conjugate. Therefore for consistency, conj is the quaternion conjugate. The use
+of a different name (e.g. qconj) was considered but the problem of the '
+operator (conjugate transpose) would remain. It is clear that this operator
+should implement the quaternion conjugate transpose because it is this transpose
+that is needed most often and not the complex conjugate transpose. We can't
+introduce a new operator into Matlab. If we want a complex conjugate transpose
+we have to write conj(A.', 'complex').
+
+Steve Sangwine
+Nicolas Le Bihan
+
+Email: S.Sangwine@IEEE.org, nicolas.le-bihan@lis.inpg.fr
+
+LIS, Grenoble
+July 2005
+Amended March 2006

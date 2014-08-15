@@ -1,0 +1,139 @@
+--------------------------------------------------------------
+                Quaternion toolbox for Matlab
+                http://qtfm.sourceforge.net/
+       Mailing list: qtfm-announce@lists.sourceforge.net
+--------------------------------------------------------------
+Copyright (©) Stephen J. Sangwine        (S.Sangwine@IEEE.org)
+2005-2007     Nicolas Le Bihan  (nicolas.le-bihan@lis.inpg.fr)
+--------------------------------------------------------------
+
+                     Release Notes
+
+Version 1.1 15 May 2007
+
+Performance improvements. A new private function vee.m implements
+the underlying operation of extracting the vector part in a much
+more efficient way than previously, saving about 15% in execution
+time (this impacts many of the arithmetic functions, so is a wide
+ranging improvement). All the class functions have been modified
+to call private functions such as ispure_internal, exe, wye, zed,
+directly. They also use compose directly to avoid calling the
+quaternion constructor function with its high error checking
+overhead. This results in a reduction in runtime of about 30% for
+functions like the SVD.
+
+An examples directory has been added to the distribution containing
+scripts that demonstrate use of the toolbox.
+
+The function dot has been renamed scalar_product. This avoids
+an inconsistency between the standard Matlab function dot which
+computes the inner product of two vectors and the quaternion
+scalar product which works elementwise. IMPORTANT: when updating
+to this release, delete the existing file dot.m. The Matlab
+function dot will work for quaternions (since all the functions
+needed within it are overloaded) but the standard Matlab function
+cannot be called if the existing QTFM/dot.m file still exists.
+Also, any existing scripts or user-written functions which called
+the QTFM/dot function will need to be altered to call the new
+scalar_product function instead. There are several places in the
+QTFM code where this change has been made (transparent to the
+user, of course). A check has been added to the file test.m that
+will detect the presence of the old dot.m file and warn the user
+about it.
+
+The adjoint function now accepts a complexified quaternion matrix
+and creates an adjoint. (The restriction to real quaternions was
+discovered to be unnecessary.) The unadjoint function has been
+changed to match (this requires some sum and differences to be
+computed instead of taking real and imaginary parts).
+
+The disp function now includes the word 'complex' in the output
+when describing quaternion arrays if at least one element of the
+array is complex.
+
+Version 1.0 14 December 2006
+
+This release does not mark a major update to the toolbox, but
+reflects the fact that the previous version has now been in use
+for long enough for problems to come to light.  The toolbox is
+now sufficiently mature to have a version number that does not
+start with zero.
+
+We have included with this release a new function svdj() which
+computes a singular value decomposition using a cyclic Jacobi
+algorithm. It will work on real and complex matrices as well
+as quaternion matrices. This code therefore demonstrates some
+of the tricks needed to write code that will work on real and
+complex matrices as well as quaternion matrices. We believe this
+may be a useful test feature.
+
+The Matlab functions ceil, floor, fix and round have been
+overloaded for quaternion matrices.
+
+Version 0.9 13 July 2006
+
+The Matlab constructor function complex() has been overloaded
+for quaternions, making it possible to write complex(a, b),
+where one or both of a and b is a quaternion.
+
+The two Matlab functions conv and conv2 (convolution) have
+been overloaded for quaternions.
+
+A new function convert has been introduced to replace the
+previous functions double, single, uint8 etc. convert works
+on the elements of a quaternion, e.g. p = convert(q, 'single')
+results in a quaternion with single precision components.
+The previous functions have been removed as they cause Matlab
+to execute a statement like X(1,2) = quaternion(1,2,3,4) even
+though X is of type double - the result is a corrupted element
+in X, and no error is raised.
+
+The private function isoquaternion has been modified to work
+correctly when the supplied complex number has zero imaginary
+part. This fixes a problem where log(quaternion(1,0,0,0))
+failed instead of returning 0.
+
+A number of minor bug fixes have been incorporated.
+
+Version 0.8 24 March 2006
+
+With this release we have made available the det, svd and eig
+functions. There are some limitations in these functions (see
+the source code) which may be removed in later releases.
+
+All of the Fourier transform functions now work for complex
+quaternions as well as real quaternions. A transform with
+real data and a real axis will be computed using a quaternion
+transform. If the data and/or axis is complex, a complex
+quaternion transform will be computed.
+
+The following functions which were previously unimplemented
+are now implemented and work for real and complex quaternions:
+log, sin, cos, tan, sinh, cosh, tanh.
+
+The function power.m has been implemented, making it possible
+to raise a quaternion to a power using the .^ notation. This
+function uses logarithms in the general case, but implements
+certain special cases such as powers of -1, 0, 1, 2, and 0.5
+using more direct calculation. The square root function has
+also been implemented.
+
+The functions isreal and sign have been added.
+
+The following functions now work correctly for complex as well
+as real quaternions: unit, angle, axis, exp, change_basis,
+orthormal_basis.
+
+A directory of test code has been added. There is a script
+called test.m which runs all the test code, and various
+scripts for testing parts of the library. The test code is
+not comprehensive and will be expanded in due course.
+
+Structure indexing has been added (in a very limited way).
+See the function subsref.m for details (work in progress).
+
+------------------------
+
+Version 0.7 27 July 2005
+
+This version is the first released on Sourceforge.

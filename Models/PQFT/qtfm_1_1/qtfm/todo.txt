@@ -1,0 +1,12 @@
+To do list for QTFM
+-------------------
+
+Add a private function for handling string parameters to the
+FFT functions, so that they can all handle 'L', 'l', 'left', 'Left'
+interchangeably (and similarly for 'R', 'r' and 'right').
+
+This could be done with a function to standardise the string
+so that if given one of these variants, it delivers 'L' or 'R'.
+
+Maybe there is an uppercase function in Matlab?
+
