@@ -10,9 +10,9 @@
 %% Clear history and memory
 clc;clear all;close all;
 %% CVBIOUC_Settings
-INPUTDATASET='./DATASET_STIMULI/';
+INPUTDATASET='./Dataset_Stimuli/';
 EXTENSION='*.jpg';
-OUTPUTSM='./DATASET_SaliencyMaps/'; 
+OUTPUTSM='./Dataset_SaliencyMaps/'; 
 %% END CVBIOUC_Settings
 %% Set path
 rootInfo = what;root = rootInfo.path;root=strcat(root,'/functions/'); addpath(root) %CVBIOUC%

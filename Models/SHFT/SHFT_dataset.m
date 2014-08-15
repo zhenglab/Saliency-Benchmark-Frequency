@@ -12,9 +12,9 @@ clear;
 close all;
 
 %% Settings
-INPUTDATASET='./DATASET_STIMULI/';
+INPUTDATASET='./Dataset_Stimuli/';
 EXTENSION='*.jpg';
-OUTPUTSM='./evaluation/DATASET_SaliencyMaps/';
+OUTPUTSM='./Dataset_SaliencyMaps/';
 %% END Settings
 
 %% Set path

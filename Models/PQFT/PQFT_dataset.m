@@ -1,9 +1,9 @@
 clear;clc;close all;
 
 %% CVBIOUC_Settings
-INPUTDATASET='./DATASET_STIMULI/';
+INPUTDATASET='./Dataset_Stimuli/';
 EXTENSION='*.jpg';
-OUTPUTSM='./DATASET_SaliencyMaps/';
+OUTPUTSM='./Dataset_SaliencyMaps/';
 %% END CVBIOUC_Settings
 rootInfo = what;root = rootInfo.path;root=strcat(root,'/qtfm_1_1/qtfm/'); addpath(root) %CVBIOUC%
 ids=dir(fullfile((INPUTDATASET),EXTENSION)); %CVBIOUC%

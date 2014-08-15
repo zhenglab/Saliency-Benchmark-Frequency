@@ -2,9 +2,9 @@ clear
 clc
 
 %% CVBIOUC_Settings
-INPUTDATASET='./DATASET_STIMULI/';
+INPUTDATASET='./Dataset_Stimuli/';
 EXTENSION='*.jpg';
-OUTPUTSM='./DATASET_SaliencyMaps/';
+OUTPUTSM='./Dataset_SaliencyMaps/';
 %% END CVBIOUC_Settings
 
 ids=dir(fullfile((INPUTDATASET),EXTENSION)); %CVBIOUC%
