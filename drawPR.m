@@ -14,12 +14,22 @@ for i = 3:length(idsResults)
     else
         figure;hold on;
         for curMatNum = 3:length(idsResults)
+            if strcmp(idsResults(curMatNum, 1).name((end-3):end), '.mat')
             load(strcat(InputResults, idsResults(curMatNum, 1).name));
             lh = plot(recall, precision, 'LineWidth', 2);
             set(lh,'Color', customColor{(curMatNum-2),1});
+            else
+                continue;
+            end
         end
         legend('HFT', 'PFDN', 'PQFT', 'SHFT', 'SIG', 'SR', 3);
-        saveas(gcf, [InputResults, 'pr.png']);
+        series=regexp(InputResults,'/');
+        titlename=InputResults((series(end-1)+1):(series(end)-1));
+        title(titlename);
+        xlabel('Recall');
+        ylabel('Precision');
+        grid;
+        saveas(gcf, [InputResults, strcat(titlename,'.png')]);
         break;
     end
 end
