@@ -9,7 +9,11 @@ for i = 3:length(idsResults)
         bianli(strcat(InputResults, idsResults(i, 1).name,'/'));
     else
         for curMatNum = 3:length(idsResults)
-            load(strcat(InputResults, idsResults(curMatNum, 1).name));
+            if strcmp(idsResults(curMatNum, 1).name((end-3):end), '.mat')
+                load(strcat(InputResults, idsResults(curMatNum, 1).name));
+            else
+                continue;
+            end
         end
         bar_all=[precision_SR,recall_SR,Fmeasure_SR;precision_PQFT,recall_PQFT,Fmeasure_PQFT;...
             precision_PFDN,recall_PFDN,Fmeasure_PFDN;precision_SIG,recall_SIG,Fmeasure_SIG;...
