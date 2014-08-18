@@ -4,13 +4,13 @@ customColor = cell(6,1);
 customColor{1, 1}='r'; customColor{2, 1}='g';
 customColor{3, 1}='b'; customColor{4, 1}='k';
 customColor{5, 1}='c'; customColor{6, 1}='m';
-bianli(InputResults, customColor);
+traverse(InputResults, customColor);
 
-function bianli(InputResults, customColor)
+function traverse(InputResults, customColor)
 idsResults = dir(InputResults);
 for i = 3:length(idsResults)
     if idsResults(i, 1).isdir==1
-        bianli(strcat(InputResults, idsResults(i, 1).name,'/'), customColor);
+        traverse(strcat(InputResults, idsResults(i, 1).name,'/'), customColor);
     else
         figure;hold on;
         for curMatNum = 3:length(idsResults)

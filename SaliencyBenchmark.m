@@ -4,10 +4,10 @@ InputDatasets = './Datasets/Images/';
 InputModels = './Models/';
 OutputSaliencyMaps = './SaliencyMaps/';
 %% END Settings
-bianli(InputDatasets, InputModels, OutputSaliencyMaps);
+traverse(InputDatasets, InputModels, OutputSaliencyMaps);
 end
 
-function bianli(InputDatasets, InputModels, OutputSaliencyMaps)
+function traverse(InputDatasets, InputModels, OutputSaliencyMaps)
 idsDatasets = dir(InputDatasets);
 idsModels = dir(InputModels);
 for i = 1:length(idsDatasets)
@@ -18,7 +18,7 @@ for i = 1:length(idsDatasets)
         if ~isdir(strcat(OutputSaliencyMaps, idsDatasets(i, 1).name, '/'));
             mkdir(strcat(OutputSaliencyMaps,idsDatasets(i, 1). name, '/'));
         end
-            bianli(strcat(InputDatasets, idsDatasets(i, 1).name, '/'), InputModels, strcat(OutputSaliencyMaps, idsDatasets(i, 1).name, '/'));
+            traverse(strcat(InputDatasets, idsDatasets(i, 1).name, '/'), InputModels, strcat(OutputSaliencyMaps, idsDatasets(i, 1).name, '/'));
     else
         if strcmp(idsDatasets(i, 1).name((end-2):end), 'jpg' )||...
                 strcmp(idsDatasets(i, 1).name((end-2):end), 'png' )||...

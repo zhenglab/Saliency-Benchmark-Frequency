@@ -3,10 +3,10 @@ function benchPR()
 InputGroundTruth = './Datasets/GroundTruth/';
 InputSaliencyMap = './SaliencyMaps/';
 OutputResults = './Results/pr/';
-bianli(InputGroundTruth, InputSaliencyMap, OutputResults)
+traverse(InputGroundTruth, InputSaliencyMap, OutputResults)
 %% END Settings
 
-function bianli(InputGroundTruth, InputSaliencyMap, OutputResults)
+function traverse(InputGroundTruth, InputSaliencyMap, OutputResults)
 idsGroundTruth = dir(InputGroundTruth);
 for i = 1:length(idsGroundTruth)
     if idsGroundTruth(i, 1).name(1)=='.'
@@ -16,7 +16,7 @@ for i = 1:length(idsGroundTruth)
         if ~isdir(strcat(OutputResults, idsGroundTruth(i, 1).name, '/'))
             mkdir(strcat(OutputResults, idsGroundTruth(i, 1).name, '/'));
         end
-        bianli(strcat(InputGroundTruth, idsGroundTruth(i, 1).name, '/'), strcat(InputSaliencyMap, idsGroundTruth(i, 1).name, '/'), strcat(OutputResults, idsGroundTruth(i, 1).name, '/'));
+        traverse(strcat(InputGroundTruth, idsGroundTruth(i, 1).name, '/'), strcat(InputSaliencyMap, idsGroundTruth(i, 1).name, '/'), strcat(OutputResults, idsGroundTruth(i, 1).name, '/'));
     else
         if strcmp(idsGroundTruth(i, 1).name((end-2):end), 'jpg' )||...
                 strcmp(idsGroundTruth(i, 1).name((end-2):end), 'png' )||...

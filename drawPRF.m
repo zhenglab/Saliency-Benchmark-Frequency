@@ -1,12 +1,12 @@
 function drawPRF()
 InputResults = './Results/prf/';
-bianli(InputResults);
+traverse(InputResults);
 
-function bianli(InputResults)
+function traverse(InputResults)
 idsResults = dir(InputResults);
 for i = 3:length(idsResults)
     if idsResults(i, 1).isdir==1
-        bianli(strcat(InputResults, idsResults(i, 1).name,'/'));
+        traverse(strcat(InputResults, idsResults(i, 1).name,'/'));
     else
         for curMatNum = 3:length(idsResults)
             if strcmp(idsResults(curMatNum, 1).name((end-3):end), '.mat')
