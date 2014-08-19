@@ -13,23 +13,28 @@ for i = 3:length(idsResults)
         traverse(strcat(InputResults, idsResults(i, 1).name,'/'), customColor);
     else
         figure;hold on;
+        numColor=1;
         for curMatNum = 3:length(idsResults)
             if strcmp(idsResults(curMatNum, 1).name((end-3):end), '.mat')
             load(strcat(InputResults, idsResults(curMatNum, 1).name));
             lh = plot(recall, precision, 'LineWidth', 2);
-            set(lh,'Color', customColor{(curMatNum-2),1});
+            set(lh,'Color',customColor{numColor,1});
+            numColor=numColor+1;
             else
                 continue;
             end
         end
-        legend('HFT', 'PFDN', 'PQFT', 'SHFT', 'SIG', 'SR', 3);
         series=regexp(InputResults,'/');
         titlename=InputResults((series(end-1)+1):(series(end)-1));
-        title(titlename);
-        xlabel('Recall');
-        ylabel('Precision');
+        title(titlename,'FontName','Times');
+        legend_handle=legend('HFT','PFDN','PQFT','SHFT','SIG','SR');
+        set(legend_handle,'Location','SouthWest','FontName','Times');
+        xlabel('Recall','FontName','Times');
+        ylabel('Precision','FontName','Times');
+        set(gca,'FontName','Times');
+        set(gcf,'paperpositionmode','auto');
         grid;
-        saveas(gcf, [InputResults, strcat(titlename,'.png')]);
+        print('-dtiff','-r1000',[InputResults, strcat(titlename,'.tif')]);
         break;
     end
 end

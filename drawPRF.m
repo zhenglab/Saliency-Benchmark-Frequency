@@ -19,11 +19,15 @@ for i = 3:length(idsResults)
             precision_PFDN,recall_PFDN,Fmeasure_PFDN;precision_SIG,recall_SIG,Fmeasure_SIG;...
             precision_HFT,recall_HFT,Fmeasure_HFT;precision_SHFT,recall_SHFT,Fmeasure_SHFT];
         bar(bar_all,'group');
-        set(gca,'XTickLabel',{'SR','PQFT','PFDN','SIG','HFT','Ours'});
-        legend('Precision','Recall','F-measure',2);
-        set(gca,'xgrid','on');
+        series=regexp(InputResults,'/');
+        titlename=InputResults((series(end-1)+1):(series(end)-1));
+        title(titlename,'FontName','Times');
+        legend_handle=legend('Precision','Recall','F-measure');
+        set(legend_handle,'Location','SouthWest','FontName','Times');
+        set(gca,'XGrid','on','XTickLabel',{'SR','PQFT','PFDN','SIG','HFT','Ours'},'FontName','Times');
+        set(gcf,'paperpositionmode','auto');
         grid;
-        saveas(gcf, [InputResults, 'prf.png']);
+        print('-dtiff','-r1000',[InputResults, strcat(titlename,'.tif')]);
         break;
     end
 end
