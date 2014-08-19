@@ -20,8 +20,8 @@ for i = 1:length(idsGroundTruth)
     else
         if strcmp(idsGroundTruth(i, 1).name((end-2):end), 'jpg' )||...
                 strcmp(idsGroundTruth(i, 1).name((end-2):end), 'png' )||...
-                strcmp(idsGroundTruth(i, 1).name((end-2):end), 'bmp' )
-            
+                strcmp(idsGroundTruth(i, 1).name((end-2):end), 'bmp' )||...
+                strcmp(idsGroundTruth(i, 1).name((end-2):end), 'tif' )
             subidsSaliencyMap = dir(InputSaliencyMap);
             for curAlgNum = 3:length(subidsSaliencyMap)
                 outFileName = strcat(OutputResults, subidsSaliencyMap(curAlgNum, 1).name, '.mat');
@@ -31,7 +31,8 @@ for i = 1:length(idsGroundTruth)
                 for curImgNum = 3:length(subsubidsSaliencyMap)
                     if strcmp(subsubidsSaliencyMap(curImgNum, 1).name((end-2):end), 'jpg' )||...
                             strcmp(subsubidsSaliencyMap(curImgNum, 1).name((end-2):end), 'png' )||...
-                            strcmp(subsubidsSaliencyMap(curImgNum, 1).name((end-2):end), 'bmp' )
+                            strcmp(subsubidsSaliencyMap(curImgNum, 1).name((end-2):end), 'bmp' )||...
+                            strcmp(subsubidsSaliencyMap(curImgNum, 1).name((end-2):end), 'tif' )
                         imgNum = imgNum+1;
                     end
                 end
