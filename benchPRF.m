@@ -44,12 +44,8 @@ for i = 1:length(idsGroundTruth)
                         curGroundTruth = im2double(imread(strcat(InputGroundTruth, idsGroundTruth(curImgNum, 1).name)));
                         gtThreshold = 0.5;
                         curGroundTruth = curGroundTruth>=gtThreshold;
-                    elseif ~isempty(strfind(InputGroundTruth,'SED_1obj'))||...
-                            ~isempty(strfind(InputGroundTruth,'SED_2obj'))||...
-                            ~isempty(strfind(InputGroundTruth,'CSSD'))
-                        curGroundTruth = double(imread(strcat(InputGroundTruth, idsGroundTruth(curImgNum, 1).name)));
                     else
-                        curGroundTruth = im2double(imread(strcat(InputGroundTruth, idsGroundTruth(curImgNum, 1).name)));
+                        curGroundTruth = logical(imread(strcat(InputGroundTruth, idsGroundTruth(curImgNum, 1).name)));
                     end
                     curSaliencyMap = double(imread(strcat(InputSaliencyMap, subidsSaliencyMap(curAlgNum, 1).name, '/', subsubidsSaliencyMap(curImgNum, 1).name)));
                     [curPrecision, curRecall, curFmeasure] = prfCount(curGroundTruth, curSaliencyMap);
