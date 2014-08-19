@@ -45,7 +45,7 @@ for i = 1:length(idsGroundTruth)
                         gtThreshold = 0.5;
                         curGroundTruth = curGroundTruth>=gtThreshold;
                     else
-                        curGroundTruth = logical(imread(strcat(InputGroundTruth, idsGroundTruth(curImgNum, 1).name)));
+                        curGroundTruth = imread(strcat(InputGroundTruth, idsGroundTruth(curImgNum, 1).name));
                     end
                     curSaliencyMap = double(imread(strcat(InputSaliencyMap, subidsSaliencyMap(curAlgNum, 1).name, '/', subsubidsSaliencyMap(curImgNum, 1).name)));
                     [curPrecision, curRecall] = prCount(curGroundTruth, curSaliencyMap);

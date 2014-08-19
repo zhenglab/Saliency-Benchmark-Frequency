@@ -1,19 +1,22 @@
 function [precision recall Fmeasure]=prfCount(GroundTruth, SaliencyMap)
 
+GroundTruth=double(GroundTruth); %%double for rgb2gray
 gtsize=size(GroundTruth);
-    if numel(gtsize)>2
-        GroundTruth = rgb2gray(GroundTruth);
-    end
-    smsize=size(SaliencyMap);
-    if numel(smsize)>2
-        SaliencyMap = rgb2gray(SaliencyMap);
-    end
+if numel(gtsize)>2
+    GroundTruth = rgb2gray(GroundTruth);
+end
+smsize=size(SaliencyMap);
+if numel(smsize)>2
+    SaliencyMap = rgb2gray(SaliencyMap);
+end
 
 [gtH, gtW] = size(GroundTruth);
 [algH, algW] = size(SaliencyMap);
 if gtH~=algH || gtW~=algW
 	SaliencyMap = imresize(SaliencyMap, [gtH, gtW]);
 end
+
+GroundTruth=logical(GroundTruth); %%binarization
 
 SaliencyMap  =  SaliencyMap(:);
 GroundTruth = GroundTruth(:);
