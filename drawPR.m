@@ -34,7 +34,7 @@ for i = 3:length(idsResults)
         set(gca,'FontName','Times');
         set(gcf,'paperpositionmode','auto');
         grid;
-        print('-dtiff','-r1000',[InputResults, strcat(titlename,'.tif')]);
+        print('-dtiff','-r1000',[InputResults, strcat('pr-',titlename,'.tif')]);
         break;
     end
 end

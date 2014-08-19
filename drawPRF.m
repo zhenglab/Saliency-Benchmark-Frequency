@@ -27,7 +27,7 @@ for i = 3:length(idsResults)
         set(gca,'XGrid','on','XTickLabel',{'SR','PQFT','PFDN','SIG','HFT','Ours'},'FontName','Times');
         set(gcf,'paperpositionmode','auto');
         grid;
-        print('-dtiff','-r1000',[InputResults, strcat(titlename,'.tif')]);
+        print('-dtiff','-r1000',[InputResults, strcat('prf-',titlename,'.tif')]);
         break;
     end
 end
