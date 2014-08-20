@@ -17,13 +17,13 @@ for i=1:length(Lpath)
     if (Lpath(i,1).name(1)=='.')
         continue;
     end
-    Hmask=GetHSeg(strcat(InputDBpath,Sep,Lpath(i,1).name),Lpath(i,1).name,OutputGTpath);
+    GetHSeg(strcat(InputDBpath,Sep,Lpath(i,1).name),Lpath(i,1).name,OutputGTpath);
 end;
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %             Get the Human binary segmentation                        %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function [mask]=GetHSeg(Hpath,GTname,OutputGTpath)
+function GetHSeg(Hpath,GTname,OutputGTpath)
 
 im=im2double(imread(Hpath));
 if (exist('mask','var'))
