@@ -40,22 +40,28 @@ for i = 1:length(idsGroundTruth)
                 precision = cell(1, imgNum);
                 recall = cell(1, imgNum);
                 
-                for curImgNum = 3:(imgNum+2)
-                    if ~isempty(strfind(InputGroundTruth,'PASCAL'))
-                        curGroundTruth = im2double(imread(strcat(InputGroundTruth, idsGroundTruth(curImgNum, 1).name)));
-                        gtThreshold = 0.5;
-                        curGroundTruth = curGroundTruth>=gtThreshold;
-                    else
-                        curGroundTruth = imread(strcat(InputGroundTruth, idsGroundTruth(curImgNum, 1).name));
+                [pathstrGroundTruth, nameGroundTruth, extGroundTruth] = fileparts(strcat(InputGroundTruth, idsGroundTruth(curImgNum, 1).name));
+                [pathstrSaliencyMap, nameSaliencyMap, extSaliencyMap] = fileparts(strcat(InputSaliencyMap, subidsSaliencyMap(curAlgNum, 1).name, '/', subsubidsSaliencyMap(curImgNum, 1).name));
+                if strcmp(nameGroundTruth, nameSaliencyMap)
+                    for curImgNum = 3:(imgNum+2)
+                        if ~isempty(strfind(InputGroundTruth,'PASCAL'))
+                            curGroundTruth = im2double(imread(strcat(InputGroundTruth, idsGroundTruth(curImgNum, 1).name)));
+                            gtThreshold = 0.5;
+                            curGroundTruth = curGroundTruth>=gtThreshold;
+                        else
+                            curGroundTruth = imread(strcat(InputGroundTruth, idsGroundTruth(curImgNum, 1).name));
+                        end
+                        curSaliencyMap = double(imread(strcat(InputSaliencyMap, subidsSaliencyMap(curAlgNum, 1).name, '/', subsubidsSaliencyMap(curImgNum, 1).name)));
+                        [curPrecision, curRecall] = prCount(curGroundTruth, curSaliencyMap);
+                        precision{curImgNum-2} = curPrecision;
+                        recall{curImgNum-2} = curRecall;
                     end
-                    curSaliencyMap = double(imread(strcat(InputSaliencyMap, subidsSaliencyMap(curAlgNum, 1).name, '/', subsubidsSaliencyMap(curImgNum, 1).name)));
-                    [curPrecision, curRecall] = prCount(curGroundTruth, curSaliencyMap);
-                    precision{curImgNum-2} = curPrecision;
-                    recall{curImgNum-2} = curRecall;
+                    precision = mean(cell2mat(precision), 2);
+                    recall = mean(cell2mat(recall), 2);
+                    save(outFileName, 'precision', 'recall');
+                else
+                    error('The name of GroundTruth and SaliencyMap must be the same');
                 end
-                precision = mean(cell2mat(precision), 2);
-                recall = mean(cell2mat(recall), 2);
-                save(outFileName, 'precision', 'recall');
             end
         end
         break;

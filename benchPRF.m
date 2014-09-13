@@ -40,33 +40,40 @@ for i = 1:length(idsGroundTruth)
                 precision = cell(1, imgNum);
                 recall = cell(1, imgNum);
                 Fmeasure = cell(1, imgNum);
-                for curImgNum = 3:(imgNum+2)
-                    if ~isempty(strfind(InputGroundTruth,'PASCAL'))
-                        curGroundTruth = im2double(imread(strcat(InputGroundTruth, idsGroundTruth(curImgNum, 1).name)));
-                        gtThreshold = 0.5;
-                        curGroundTruth = curGroundTruth>=gtThreshold;
-                    else
-                        curGroundTruth = imread(strcat(InputGroundTruth, idsGroundTruth(curImgNum, 1).name));
+                
+                [pathstrGroundTruth, nameGroundTruth, extGroundTruth] = fileparts(strcat(InputGroundTruth, idsGroundTruth(curImgNum, 1).name));
+                [pathstrSaliencyMap, nameSaliencyMap, extSaliencyMap] = fileparts(strcat(InputSaliencyMap, subidsSaliencyMap(curAlgNum, 1).name, '/', subsubidsSaliencyMap(curImgNum, 1).name));
+                if strcmp(nameGroundTruth, nameSaliencyMap)
+                    for curImgNum = 3:(imgNum+2)
+                        if ~isempty(strfind(InputGroundTruth,'PASCAL'))
+                            curGroundTruth = im2double(imread(strcat(InputGroundTruth, idsGroundTruth(curImgNum, 1).name)));
+                            gtThreshold = 0.5;
+                            curGroundTruth = curGroundTruth>=gtThreshold;
+                        else
+                            curGroundTruth = imread(strcat(InputGroundTruth, idsGroundTruth(curImgNum, 1).name));
+                        end
+                        curSaliencyMap = double(imread(strcat(InputSaliencyMap, subidsSaliencyMap(curAlgNum, 1).name, '/', subsubidsSaliencyMap(curImgNum, 1).name)));
+                        [curPrecision, curRecall, curFmeasure] = prfCount(curGroundTruth, curSaliencyMap);
+                        precision{curImgNum-2} = curPrecision;
+                        recall{curImgNum-2} = curRecall;
+                        Fmeasure{curImgNum-2} = curFmeasure;
                     end
-                    curSaliencyMap = double(imread(strcat(InputSaliencyMap, subidsSaliencyMap(curAlgNum, 1).name, '/', subsubidsSaliencyMap(curImgNum, 1).name)));
-                    [curPrecision, curRecall, curFmeasure] = prfCount(curGroundTruth, curSaliencyMap);
-                    precision{curImgNum-2} = curPrecision;
-                    recall{curImgNum-2} = curRecall;
-                    Fmeasure{curImgNum-2} = curFmeasure;
+                    precision = mean(cell2mat(precision), 2);
+                    savePrecision = strcat('precision', '_', subidsSaliencyMap(curAlgNum).name);
+                    eval([savePrecision, '=', 'precision']);
+                    
+                    recall = mean(cell2mat(recall), 2);
+                    saveRecall = strcat('recall', '_', subidsSaliencyMap(curAlgNum).name);
+                    eval([saveRecall, '=', 'recall']);
+                    
+                    Fmeasure = mean(cell2mat(Fmeasure), 2);
+                    saveFmeasure = strcat('Fmeasure', '_', subidsSaliencyMap(curAlgNum).name);
+                    eval([saveFmeasure, '=', 'Fmeasure']);
+                    
+                    save(outFileName, savePrecision, saveRecall, saveFmeasure);
+                else
+                    error('The name of GroundTruth and SaliencyMap must be the same');
                 end
-                precision = mean(cell2mat(precision), 2);
-                savePrecision = strcat('precision', '_', subidsSaliencyMap(curAlgNum).name);
-                eval([savePrecision, '=', 'precision']);
-                
-                recall = mean(cell2mat(recall), 2);
-                saveRecall = strcat('recall', '_', subidsSaliencyMap(curAlgNum).name);
-                eval([saveRecall, '=', 'recall']);
-                
-                Fmeasure = mean(cell2mat(Fmeasure), 2);
-                saveFmeasure = strcat('Fmeasure', '_', subidsSaliencyMap(curAlgNum).name);
-                eval([saveFmeasure, '=', 'Fmeasure']);
-                
-                save(outFileName, savePrecision, saveRecall, saveFmeasure);
             end
         end
         break;
