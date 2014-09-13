@@ -18,6 +18,7 @@ for i = 3:length(idsResults)
         bar_all=[precision_SR,recall_SR,Fmeasure_SR;precision_PQFT,recall_PQFT,Fmeasure_PQFT;...
             precision_PFDN,recall_PFDN,Fmeasure_PFDN;precision_SIG,recall_SIG,Fmeasure_SIG;...
             precision_HFT,recall_HFT,Fmeasure_HFT;precision_SHFT,recall_SHFT,Fmeasure_SHFT];
+        figure;
         bar(bar_all,'group');
         series=regexp(InputResults,'/');
         titlename=InputResults((series(end-1)+1):(series(end)-1));
