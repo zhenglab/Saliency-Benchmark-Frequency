@@ -1,10 +1,18 @@
 function drawPR()
 InputResults = './Results/pr/';
-customColor = cell(6,1);
-customColor{1, 1}=[1 0 0]; customColor{2, 1}=[0 1 0];
-customColor{3, 1}=[0 0 1]; customColor{4, 1}=[0 0 0];
-customColor{5, 1}=[0 1 1]; customColor{6, 1}=[1 0 1];
-customColor{7, 1}=[1 1 0]; customColor{8, 1}=[0.5 0 0.5];
+customColor = cell(10,1);
+
+customColor{1, 1}=[1 1 0];%'y' 'yellow'
+customColor{2, 1}=[1 0 1];%'m' 'magenta'
+customColor{3, 1}=[0 1 1];%'c' 'cyan'
+customColor{4, 1}=[1 0 0];%'r' 'red'
+customColor{5, 1}=[0 1 0];%'g' 'green'
+customColor{6, 1}=[0 0 1];%'b' 'blue'
+customColor{7, 1}=[0 0 0];%'k' 'black'
+customColor{8, 1}=[0 0.7 1];
+customColor{9, 1}=[0.7 0 1];
+customColor{10, 1}=[0.5 0.5 0.5];
+
 traverse(InputResults, customColor);
 
 function traverse(InputResults, customColor)
