@@ -18,8 +18,13 @@ for i = 1:length(idsGroundTruth)
         end
         traverse(strcat(InputGroundTruth, idsGroundTruth(i, 1).name, '/'), strcat(InputSaliencyMap, idsGroundTruth(i, 1).name, '/'), strcat(OutputResults, idsGroundTruth(i, 1).name, '/'));
     else
+        series=regexp(OutputResults, '/');
+        DatasetsName=OutputResults((series(end-1)+1):(series(end)-1));
+        DatasetsTxt = fopen(strcat(OutputResults, 'prf-', DatasetsName, '.txt'), 'w');
+        fprintf(DatasetsTxt, '%s\t%s\t%s\t%s\n', 'Model', 'Precision', 'Recall', 'F-measure');
         subidsSaliencyMap = dir(InputSaliencyMap);
         for curAlgNum = 3:length(subidsSaliencyMap)
+            fprintf(DatasetsTxt, '%s\t', subidsSaliencyMap(curAlgNum, 1).name);
             outFileName = strcat(OutputResults, subidsSaliencyMap(curAlgNum, 1).name, '.mat');
             subsubidsSaliencyMap = dir(strcat(InputSaliencyMap, subidsSaliencyMap(curAlgNum, 1).name, '/'));
             %% compute the number of images in the dataset
@@ -42,7 +47,7 @@ for i = 1:length(idsGroundTruth)
             [pathstrSaliencyMap, nameSaliencyMap, extSaliencyMap] = fileparts(strcat(InputSaliencyMap, subidsSaliencyMap(curAlgNum, 1).name, '/', subsubidsSaliencyMap(curImgNum, 1).name));
             if strcmp(nameGroundTruth, nameSaliencyMap)
                 for curImgNum = 3:(imgNum+2)
-                    if ~isempty(strfind(InputGroundTruth,'PASCAL'))
+                    if ~isempty(strfind(InputGroundTruth, 'PASCAL'))
                         curGroundTruth = im2double(imread(strcat(InputGroundTruth, idsGroundTruth(curImgNum, 1).name)));
                         gtThreshold = 0.5;
                         curGroundTruth = curGroundTruth>=gtThreshold;
@@ -68,6 +73,7 @@ for i = 1:length(idsGroundTruth)
                 eval([saveFmeasure, '=', 'Fmeasure']);
                 
                 save(outFileName, savePrecision, saveRecall, saveFmeasure);
+                fprintf(DatasetsTxt, '%f\t%f\t%f\n', precision, recall, Fmeasure);
             else
                 error('The name of GroundTruth and SaliencyMap must be the same');
             end
