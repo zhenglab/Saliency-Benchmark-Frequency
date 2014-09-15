@@ -22,7 +22,9 @@ for i = 3:length(idsResults)
         traverse(strcat(InputResults, idsResults(i, 1).name,'/'), customColor);
     else
         figure;hold on;
-        numColor=1;
+        numColor = 1;
+        numModel = dir(fullfile(InputResults, '*.mat'));
+        modelCell = cell(1, numel(numModel));
         for curMatNum = 3:length(idsResults)
             if strcmp(idsResults(curMatNum, 1).name((end-3):end), '.mat')
                 load(strcat(InputResults, idsResults(curMatNum, 1).name));
