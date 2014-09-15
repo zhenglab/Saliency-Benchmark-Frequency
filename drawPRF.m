@@ -9,8 +9,8 @@ for i = 3:length(idsResults)
         traverse(strcat(InputResults, idsResults(i, 1).name,'/'));
     else
         numModel = 1;
-        numModel = dir(fullfile(InputResults, '*.mat'));
-        modelCell = cell(1, numel(numModel));
+        numMat = dir(fullfile(InputResults, '*.mat'));
+        modelCell = cell(1, numel(numMat));
         for curMatNum = 3:length(idsResults)
             if strcmp(idsResults(curMatNum, 1).name((end-3):end), '.mat')
                 load(strcat(InputResults, idsResults(curMatNum, 1).name));
