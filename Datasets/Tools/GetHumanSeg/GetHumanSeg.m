@@ -1,19 +1,19 @@
 function GetHumanSeg()
 %% Settings
-InputDBpath='./obj';
-SysType='unix';
-OutputGTpath='./obj_GroundTruth/';
+InputDBpath = './obj';
+SysType = 'unix';
+OutputGTpath = './obj_GroundTruth/';
 %% END Settings
-Lpath=dir(InputDBpath);
+Lpath = dir(InputDBpath);
 switch lower(SysType)
     case 'win'
-        Sep='\';
+        Sep = '\';
     case 'unix'
-        Sep='/';
+        Sep = '/';
     otherwise
-        Sep='\';
+        Sep = '\';
 end;
-for i=1:length(Lpath)
+for i = 1:length(Lpath)
     if (Lpath(i,1).name(1)=='.')
         continue;
     end
@@ -24,13 +24,8 @@ end
 %             Get the Human binary segmentation                        %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function GetHSeg(Hpath,GTname,OutputGTpath)
-
-im=im2double(imread(Hpath));
-if (exist('mask','var'))
-    mask=mask+double((im(:,:,1)==1)&(im(:,:,2)==0)&(im(:,:,3)==0));
-else
-    mask=double((im(:,:,1)==1)&(im(:,:,2)==0)&(im(:,:,3)==0));
-end;
-imwrite(mask,strcat(OutputGTpath,GTname(1:end-4), '.jpg'));
+im = imread(Hpath);
+mask = (im(:,:,1)==255)&(im(:,:,2)==0)&(im(:,:,3)==0);
+imwrite(mask,strcat(OutputGTpath,GTname(1:end-4), '.png'));
 end
 
